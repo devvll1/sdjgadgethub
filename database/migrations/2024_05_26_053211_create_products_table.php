@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
+   /**
      * Run the migrations.
      */
     public function up(): void
@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('description', 55)->nullable();
             $table->float('price');
             $table->integer('stock_quantity');
-            $table->unsignedBigInteger('role_id');
+            $table->unsignedBigInteger('category_id');
+            $table->timestamps();
 
             $table->foreign('category_id')
                     ->references('category_id')

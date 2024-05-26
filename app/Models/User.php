@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Employee extends Model
+class User extends Model
 {
     use HasFactory;
-    protected $table ='employees';
-    protected $primaryKey = 'employee_id';
+    use HasFactory;
+    protected $table ='users';
+    protected $primaryKey = 'user_id';
     protected $fillable =[
      'first_name',
      'middle_name',
@@ -20,7 +21,6 @@ class Employee extends Model
      'address',
      'contact_number',
      'email',
-     'role_id',
      'username',
      'photo',
      'password',
@@ -30,17 +30,9 @@ class Employee extends Model
      'password',
      ];
  
-    public function gender()
+    public function genders()
     {
         return $this->belongsTo(Gender::class, 'gender_id');
     }
 
-    public function role()
-    {
-        return $this->belongsTo(Role::class, 'role_id');
-    }
 }
-
-
-
-

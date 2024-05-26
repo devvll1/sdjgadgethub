@@ -15,14 +15,15 @@ class TransactionItem extends Model
         'product_id',
         'quantity',
         'price',
+        
     ];
 
-    public function transaction()
+    public function transactions()
     {
         return $this->belongsTo(Transaction::class);
     }
 
-    public function product()
+    public function products()
     {
         return $this->belongsTo(Product::class);
     }

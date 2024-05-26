@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('transaction_items', function (Blueprint $table) {
             $table->id('transaction_item_id');
             $table->unsignedBigInteger('transaction_id');
-            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('products_id');
             $table->integer('quantity');
             $table->float('price');
+            
 
             $table->foreign('transaction_id')
                     ->references('transaction_id')
@@ -24,8 +25,8 @@ return new class extends Migration
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
 
-            $table->foreign('product_id')
-                    ->references('product_id')
+            $table->foreign('products_id')
+                    ->references('products_id')
                     ->on('products')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');

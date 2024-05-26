@@ -13,17 +13,18 @@ class Transaction extends Model
     protected $fillable = [
         'transaction_date',
         'total_amount',
-        'payment_method',
-        'customer_id',
+        'pmethod_id',
+        'user_id',
     ];
 
-    public function customer()
+    public function paymentmethods()
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(PaymentMethod::class);
     }
 
-    public function items()
+    public function users()
     {
-        return $this->hasMany(TransactionItem::class);
+        return $this->belongsTo(User::class);
     }
+
 }

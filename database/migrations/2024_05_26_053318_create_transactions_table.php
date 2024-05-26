@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
+     /**
      * Run the migrations.
      */
     public function up(): void
@@ -15,12 +15,19 @@ return new class extends Migration
             $table->id('transaction_id');
             $table->dateTime('transaction_date');
             $table->float('total_amount');
-            $table->string('payment_method');
-            $table->unsignedBigInteger('customer_id');
+            $table->UnsignedBigInteger('pmethod_id');
+            $table->UnsignedBigInteger('user_id');
+            $table->timestamps();
 
-            $table->foreign('customer_id')
-                    ->references('customer_id')
-                    ->on('customers')
+            $table->foreign('pmethod_id')
+                    ->references('pmethod_id')
+                    ->on('paymentmethods')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
+
+                    $table->foreign('user_id')
+                    ->references('user_id')
+                    ->on('users')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
         });
