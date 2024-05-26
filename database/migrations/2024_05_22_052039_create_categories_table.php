@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('category_id');
             $table->string('category name');
             $table->string('description');
+            
            
         });
     }
