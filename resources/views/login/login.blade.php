@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <style>
         body, html {
             height: 100%;
@@ -53,8 +54,16 @@
         }
 
         .square2 h1 {
+            font-family: "Bebas Neue", sans-serif;
+            font-style: normal;
             margin-top: -100px;
-            margin-bottom: 50px;
+            margin-bottom: 20px;
+            color: #0a0a0a;
+        }
+
+        .square2 h2 {
+            font-family: "Bebas Neue", sans-serif;
+            font-style: normal;
             color: #0a0a0a;
         }
 
@@ -104,11 +113,13 @@
             <a href="#"><img src="{{ asset('img/login.png') }}" alt="Login Image"></a>
         </div>
         <div class="square2">
-            <h1>LOGIN</h1>
-            <form>
+            <h1>SDJ GADGET HUB</h1>
+            <h2>LOGIN</h2>
+            <form action="/process/login" method="post">
+                @csrf
                 <div class="input-group">
-                    <label for="email">Username</label>
-                    <input type="email" id="email" name="email" required>
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
                 </div>
                 <div class="input-group">
                     <label for="password">Password</label>
@@ -116,6 +127,9 @@
                 </div>
                 <button type="submit">LOGIN</button>
             </form>
+            @if (session('error'))
+                <div class="error">{{ session('error') }}</div>
+            @endif
         </div>
     </div>
 </body>
