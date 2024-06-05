@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\storage;
@@ -67,9 +66,27 @@ use Illuminate\Http\UploadedFile;
             session($data);
         }  
 
-        public function index()
+        public function index(Request $request)
     {
-        $users = User::all();
+        $search = $request->input('search');
+        $usersQuery = User::query()->with('genders'); // Eager load the gender relationship
+    
+        if ($search) {
+            $usersQuery->where(function ($query) use ($search) {
+                $query->where('first_name', 'LIKE', "%{$search}%")
+                    ->orWhere('last_name', 'LIKE', "%{$search}%")
+                    ->orWhere('email', 'LIKE', "%{$search}%");
+                    
+                if (strtolower($search) == 'male' || strtolower($search) == 'female') {
+                    $query->orWhereHas('genders', function ($query) use ($search) {
+                        $query->where('gender', $search);
+                    });
+                }
+            });
+        }
+    
+        $users = $usersQuery->simplePaginate(6); // Paginate the results
+        $users->appends(['search' => $search]); // Append the search query to the pagination links
         return view('users.index', compact('users'));
     }
 
