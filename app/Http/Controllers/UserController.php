@@ -132,6 +132,10 @@ use Illuminate\Http\UploadedFile;
         return redirect()->route('users.index')->with('message_success', 'User successfully added.');
     }
 
+    public function nav() {
+        return view('users.nav');
+    }
+
     public function show($id)
     {
         // Find the user by ID
@@ -176,7 +180,7 @@ use Illuminate\Http\UploadedFile;
             $extension = $filenameWithExtension->getClientOriginalExtension();
             
             // Generate a unique filename
-            $filenameToStore = $filename . '' . time() . '' . $extension;
+            $filenameToStore = $filename . '' . time() . '.' . $extension;
             
             // Store the uploaded file to the desired directory
             $request->file('photo')->storeAs('public/img/user', $filenameToStore);
@@ -195,6 +199,24 @@ use Illuminate\Http\UploadedFile;
         
         // Redirect back with a success message
         return redirect()->route('users.index')->with('message_success', 'User updated successfully.');
+    }
+
+    public function destroy($id)
+    {
+        // Find the user by ID and delete it
+        // Find the user by ID
+        $user = User::findOrFail($id);
+
+        // Delete the user's image if it exists
+        if ($user->photo && Storage::exists('public/img/user/' . $user->photo)) {
+            Storage::delete('public/img/user/' . $user->photo);
+        }
+        // Delete the user
+        $user->delete();
+
+    
+        // Redirect back with a success message
+        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }
 
     public function logout(Request $request) {

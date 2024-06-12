@@ -23,6 +23,7 @@ Route::controller(UserController::class)->group(function () {
 });
 
 Route::controller(UserController::class)->group(function () {
+    Route::get('/users/nav', [UserController::class, 'nav'])->name('users.nav');
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
     Route::post('/users/store', 'store')->name('users.store');

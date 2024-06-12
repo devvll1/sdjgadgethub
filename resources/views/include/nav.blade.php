@@ -63,7 +63,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-                    <a class="nav-link" href="#!">
+                    <a class="nav-link" href="{{ route('dashboard') }}">
                         <i class="far fa-envelope"></i> Home
                     </a>
                     <li class="nav-item dropdown">
@@ -71,8 +71,8 @@
                         <i class="far fa-envelope"></i> Products
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="productsDropdown">
-                        <li><a class="dropdown-item" href="#">Product List</a></li>
-                        <li><a class="dropdown-item" href="#">Add Product</a></li>
+                        <li><a class="dropdown-item" href="">Product List</a></li>
+                        <li><a class="dropdown-item" href="">Add Product</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -80,8 +80,8 @@
                         <i class="far fa-envelope"></i> Users
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="usersDropdown">
-                        <li><a class="dropdown-item" href="#">User List</a></li>
-                        <li><a class="dropdown-item" href="{{ route('users.create') }}">Add User</a></li>
+                        <li><a class="dropdown-item" href="">User List</a></li>
+                        <li><a class="dropdown-item" href="">Add User</a></li>
                         
                     </ul>
                 </li>
@@ -93,8 +93,8 @@
                         <i class="far fa-envelope"></i> Order
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="orderDropdown">
-                        <li><a class="dropdown-item" href="#">Order List</a></li>
-                        <li><a class="dropdown-item" href="#">Add Order</a></li>
+                        <li><a class="dropdown-item" href="">Order List</a></li>
+                        <li><a class="dropdown-item" href="">Add Order</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
