@@ -2,18 +2,15 @@
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ProductsController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
 
 Route::controller(UserController::class)->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
     Route::get('/','login')->name('login');
     Route::post('/process/login','processLogin');
     Route::get('/logout', function () {
@@ -33,4 +30,15 @@ Route::controller(UserController::class)->group(function () {
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 
     Route::get('/full-name', [UserController::class, 'showFullName'])->name('full-name.show');
+});
+
+Route::controller(ProductsController::class)->group(function () {
+    Route::get('/products/nav', [ProductsController::class, 'nav'])->name('products.nav');
+    Route::get('/products', [ProductsController::class, 'index'])->name('products.index');
+    Route::get('/products/create', [ProductsController::class, 'create'])->name('products.create');
+    Route::post('/products/store', 'store')->name('products.store');
+    Route::get('/products/{id}', [ProductsController::class, 'show'])->name('products.show');
+    Route::get('/products/{id}/edit', [ProductsController::class, 'edit'])->name('products.edit');
+    Route::put('/products/{id}', [ProductsController::class, 'update'])->name('products.update');
+    Route::delete('/products/{id}', [ProductsController::class, 'destroy'])->name('products.destroy');
 });

@@ -71,8 +71,8 @@
                         <i class="far fa-envelope"></i> Products
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="productsDropdown">
-                        <li><a class="dropdown-item" href="">Product List</a></li>
-                        <li><a class="dropdown-item" href="">Add Product</a></li>
+                        <li><a class="dropdown-item" href="{{ route('products.index') }}">Product List</a></li>
+                        <li><a class="dropdown-item" href="{{ route('products.create') }}">Add Product</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -80,8 +80,8 @@
                         <i class="far fa-envelope"></i> Users
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="usersDropdown">
-                        <li><a class="dropdown-item" href="">User List</a></li>
-                        <li><a class="dropdown-item" href="">Add User</a></li>
+                        <li><a class="dropdown-item" href="{{ route('users.index') }}">User List</a></li>
+                        <li><a class="dropdown-item" href="{{ route('users.create') }}">Add User</a></li>
                         
                     </ul>
                 </li>

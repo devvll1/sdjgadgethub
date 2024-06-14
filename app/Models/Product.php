@@ -12,6 +12,7 @@ class Product extends Model
     protected $table ='products';
     protected $primaryKey = 'products_id';
     protected $fillable = [
+        'photo',
         'name',
         'description',
         'price',
@@ -21,6 +22,6 @@ class Product extends Model
 
     public function categories()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'category_id');
     }
 }

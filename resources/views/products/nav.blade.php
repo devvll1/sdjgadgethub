@@ -55,7 +55,7 @@
 
 <div class="container-fluid">
     <div class="header">
-        <a href="#"><img style="width:1536px" src="{{ asset('img/header.png') }}" alt="Header Image"></a>
+        <a href="#"><img style="width:1520px" src="{{ asset('img/header.png') }}"></a>
     </div>
 
     <div>
@@ -63,12 +63,14 @@
     </div>
 
     <div class="gradient-container">
-        <a href="{{ route('products.nav') }}" class="btn btn-custom">PRODUCTS</a>
-        <a href="{{ route('users.nav') }}" class="btn btn-custom">USERS</a>
-        <a href="" class="btn btn-custom">ORDER</a>
-        <a href="" class="btn btn-custom">REPORTS</a>
+        <a  href="{{ route('products.create') }}" class="btn btn-custom">ADD PRODUCT</a>
+        <a href="{{ route('products.index') }}" class="btn btn-custom">PRODUCT LIST</a>
+        <div class="container">
+            <a href="{{ route('dashboard') }}" class="btn btn-secondary" style="margin-top:20px"> Return</a>
+        </div>
     </div>
-
+    
+    
     @yield('page-content')
     @csrf
 </div>
