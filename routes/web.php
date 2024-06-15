@@ -4,6 +4,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ProductsController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TransactionsController;
 
 
 
@@ -41,4 +42,15 @@ Route::controller(ProductsController::class)->group(function () {
     Route::get('/products/{id}/edit', [ProductsController::class, 'edit'])->name('products.edit');
     Route::put('/products/{id}', [ProductsController::class, 'update'])->name('products.update');
     Route::delete('/products/{id}', [ProductsController::class, 'destroy'])->name('products.destroy');
+});
+
+Route::controller(TransactionsController::class)->group(function () {
+    Route::get('/transactions/nav', [TransactionsController::class, 'nav'])->name('transactions.nav');
+    Route::get('/transactions', [TransactionsController::class, 'index'])->name('transactions.index');
+    Route::get('/transactions/create', [TransactionsController::class, 'create'])->name('transactions.create');
+    Route::post('/transactions/store', 'store')->name('transactions.store');
+    Route::get('/transactions/{id}', [TransactionsController::class, 'show'])->name('transactions.show');
+    Route::get('/transactions/{id}/edit', [TransactionsController::class, 'edit'])->name('transactions.edit');
+    Route::put('/transactions/{id}', [TransactionsController::class, 'update'])->name('transactions.update');
+    Route::delete('/transactions/{id}', [TransactionsController::class, 'destroy'])->name('transactions.destroy');
 });
