@@ -24,9 +24,21 @@
                                 </thead>
                                 <tbody id="order-items"></tbody>
                             </table>
-                            <p>Amount: <span id="order-amount">0</span></p>
                             <p>Total Amount: <span id="total-amount">0</span></p>
-                            <p>Tendered: <span id="tendered-amount">0</span></p>
+                            <p>
+                                Tendered: 
+                                <input type="number" id="tendered-input" value="0" step="0.01" min="0" />
+                            </p>
+                            <p>Change: <span id="change-amount">0</span></p>
+                            <p>
+                                Payment Method: 
+                                <select id="payment-method" class="form-control">
+                                    @foreach($paymentmethods as $paymentmethods)
+                                        <option value="{{ $paymentmethods->pmethod_id }}">{{ $paymentmethods->paymentmethods }}</option>
+                                    @endforeach
+                                </select>
+                            </p>
+                            <button id="checkout-button" class="btn btn-success">Checkout</button>
                         </div>
                     </div>
                     <div class="col-md-7">
@@ -55,11 +67,43 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const orderItems = document.getElementById('order-items');
-        const orderAmount = document.getElementById('order-amount');
-        const totalAmount = document.getElementById('total-amount');
+        const orderAmount = document.getElementById('total-amount');
+        const tenderedInput = document.getElementById('tendered-input');
+        const changeAmount = document.getElementById('change-amount');
         let orderTotal = 0;
         const orderDetails = {};
 
+        // Function to update quantity and total of an item in the order
+        function updateOrderItemRow(id) {
+            const item = orderDetails[id];
+            item.element.querySelector('.product-quantity').textContent = item.quantity;
+            const itemTotal = item.quantity * item.price;
+            item.element.querySelector('.product-total').textContent = itemTotal.toFixed(2);
+            updateOrderTotal();
+        }
+
+        // Function to remove an item from the order
+        function removeOrderItem(id) {
+            orderItems.removeChild(orderDetails[id].element);
+            delete orderDetails[id];
+            updateOrderTotal();
+        }
+
+        // Function to calculate and update total amount
+        function updateOrderTotal() {
+            orderTotal = Object.values(orderDetails).reduce((acc, item) => {
+                const itemTotal = item.quantity * item.price;
+                return acc + itemTotal;
+            }, 0);
+            orderAmount.textContent = orderTotal.toFixed(2);
+
+            // Update change amount based on tendered amount
+            const tenderedAmount = parseFloat(tenderedInput.value);
+            const change = tenderedAmount - orderTotal;
+            changeAmount.textContent = change.toFixed(2);
+        }
+
+        // Event listeners for add to order buttons
         document.querySelectorAll('.add-to-order').forEach(button => {
             button.addEventListener('click', function () {
                 const id = this.getAttribute('data-id');
@@ -71,6 +115,7 @@
                     updateOrderItemRow(id);
                 } else {
                     const tr = document.createElement('tr');
+                    tr.dataset.productId = id;
                     tr.innerHTML = `
                         <td>${name}</td>
                         <td>${price.toFixed(2)}</td>
@@ -78,7 +123,7 @@
                         <td class="product-total">${price.toFixed(2)}</td>
                         <td>
                             <button style="padding: 8px" class="btn btn-success btn-sm increase-quantity">+</button>
-                            <button style="padding: 8px"  class="btn btn-warning btn-sm decrease-quantity">-</button>
+                            <button style="padding: 8px" class="btn btn-warning btn-sm decrease-quantity">-</button>
                             <button style="padding: 10px" class="btn btn-danger btn-sm remove-from-order">Remove</button>
                         </td>
                     `;
@@ -94,14 +139,12 @@
                     tr.querySelector('.increase-quantity').addEventListener('click', function () {
                         orderDetails[id].quantity++;
                         updateOrderItemRow(id);
-                        updateOrderTotal();
                     });
 
                     tr.querySelector('.decrease-quantity').addEventListener('click', function () {
                         if (orderDetails[id].quantity > 1) {
                             orderDetails[id].quantity--;
                             updateOrderItemRow(id);
-                            updateOrderTotal();
                         } else {
                             removeOrderItem(id);
                         }
@@ -116,23 +159,49 @@
             });
         });
 
-        function updateOrderItemRow(id) {
-            const item = orderDetails[id];
-            item.element.querySelector('.product-quantity').textContent = item.quantity;
-            item.element.querySelector('.product-total').textContent = (item.quantity * item.price).toFixed(2);
-        }
+        // Event listener for tendered amount input
+        tenderedInput.addEventListener('input', updateOrderTotal);
 
-        function removeOrderItem(id) {
-            orderItems.removeChild(orderDetails[id].element);
-            delete orderDetails[id];
-            updateOrderTotal();
-        }
+        // Checkout button event listener
+        const checkoutButton = document.getElementById('checkout-button');
+        checkoutButton.addEventListener('click', function () {
+            const tenderedAmount = parseFloat(tenderedInput.value);
+            const paymentMethod = document.getElementById('payment-method').value;
+            const orderItemsArray = Object.values(orderDetails).map(item => {
+                return {
+                    product_id: item.productId, // Ensure 'productId' matches your actual attribute
+                    quantity: item.quantity,
+                    price: item.price
+                };
+            });
 
-        function updateOrderTotal() {
-            orderTotal = Object.values(orderDetails).reduce((sum, item) => sum + (item.quantity * item.price), 0);
-            orderAmount.textContent = orderTotal.toFixed(2);
-            totalAmount.textContent = orderTotal.toFixed(2);
-        }
+            const formData = {
+                total_amount: orderTotal,
+                tendered: tenderedAmount,
+                payment_method: paymentMethod,
+                order_items: orderItemsArray
+            };
+
+            fetch('/transactions.create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
     });
 </script>
+
+
 @endsection

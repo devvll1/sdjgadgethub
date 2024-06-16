@@ -6,15 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-     /**
+    /**
      * Run the migrations.
      */
     public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id('transaction_id');
-            $table->dateTime('transaction_date');
             $table->float('total_amount');
+            $table->float('tendered');
+            $table->float('change');
             $table->UnsignedBigInteger('pmethod_id');
             $table->UnsignedBigInteger('user_id');
             $table->timestamps();
