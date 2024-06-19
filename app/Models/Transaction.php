@@ -20,12 +20,17 @@ class Transaction extends Model
 
     public function paymentmethods()
     {
-        return $this->belongsTo(PaymentMethod::class);
+        return $this->belongsTo(PaymentMethod::class, 'pmethod_id');
     }
 
     public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id');
     }
+
+    public function items()
+{
+    return $this->hasMany(TransactionItem::class, 'transaction_id');
+}
 
 }

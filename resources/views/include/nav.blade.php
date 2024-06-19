@@ -85,31 +85,25 @@
                         
                     </ul>
                 </li>
-            </ul>
-
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item dropdown">
+                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="orderDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="far fa-envelope"></i> Order
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="orderDropdown">
-                        <li><a class="dropdown-item" href="">Order List</a></li>
-                        <li><a class="dropdown-item" href="">Add Order</a></li>
+                        <li><a class="dropdown-item" href="{{ route('transactions.index') }}">Transaction List</a></li>
+                        <li><a class="dropdown-item" href="{{ route('transactions.history') }}">Transaction History</a></li>
+                        <li><a class="dropdown-item" href="{{ route('transactions.create') }}">Add Transaction</a></li>
                     </ul>
                 </li>
-                <li class="nav-item">
+            </ul>
+
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item btn btn-outline-dark" style="margin-right:19px">
                     <a class="nav-link" href="{{ route('logout') }}">
                         <i class="fas fa-globe-americas"></i> Logout
                     </a>
                 </li>
             </ul>
-
-            <form class="d-flex input-group w-auto ms-lg-3 my-3 my-lg-0">
-                <input type="search" class="form-control" placeholder="Search" aria-label="Search" />
-                <button class="btn btn-outline-light" type="button" data-mdb-ripple-color="dark">
-                    Search
-                </button>
-            </form>
         </div>
     </div>
 </nav>

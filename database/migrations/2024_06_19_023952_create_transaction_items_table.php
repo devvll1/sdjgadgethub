@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('transaction_items', function (Blueprint $table) {
@@ -17,6 +14,7 @@ return new class extends Migration
             $table->unsignedBigInteger('products_id');
             $table->integer('quantity');
             $table->float('price');
+            $table->timestamps();
             
 
             $table->foreign('transaction_id')

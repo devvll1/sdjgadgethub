@@ -9,22 +9,22 @@ class TransactionItem extends Model
 {
     use HasFactory;
     protected $table ='transaction_items';
-    protected $primaryKey = 'transaction_items_id';
+    protected $primaryKey = 'transaction_item_id';
     protected $fillable = [
         'transaction_id',
-        'product_id',
+        'products_id',
         'quantity',
         'price',
-        
     ];
 
     public function transactions()
     {
-        return $this->belongsTo(Transaction::class);
+        return $this->belongsTo(Transaction::class, 'transaction_id');
     }
 
     public function products()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class, 'products_id');
     }
+
 }

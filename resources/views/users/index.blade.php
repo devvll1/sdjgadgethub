@@ -73,6 +73,7 @@
             </table>
             <!-- Return button -->
             <a href="{{ route('users.index') }}" class="btn btn-secondary">Return</a>
+            <a class="btn btn-primary" href="{{ route('users.nav') }}">Return</a>
         </div>
     </div>
 </div>

@@ -90,7 +90,7 @@
                             <button type="submit" class="btn btn-primary">Add</button>
                         </div>
                         <div class="col-md-1 d-flex align-items-end">
-                            <button type="button" class="btn btn-primary" href="{{ route('users.index') }}">Return</button>
+                            <button type="button" class="btn btn-primary" href="{{ route('users.nav') }}">Return</button>
                         </div>
                     </div>
                 </form>

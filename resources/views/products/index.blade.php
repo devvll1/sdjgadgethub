@@ -66,6 +66,7 @@
             </table>
             <!-- Return button -->
             <a href="{{ route('products.index') }}" class="btn btn-secondary">Return</a>
+            <a class="btn btn-secondary" href="{{ route('products.nav') }}">Main Menu</a>
         </div>
     </div>
 </div>

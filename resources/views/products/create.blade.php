@@ -56,8 +56,9 @@
                         </div>
 
                         <div class="col-md-1 d-flex align-items-end">
-                            <a class="btn btn-primary" href="{{ route('products.index') }}">Return</a>
+                            <a class="btn btn-primary" href="{{ route('products.nav') }}">Return</a>
                         </div>
+                        
                     </div>
                 </form>
             </div>

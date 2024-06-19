@@ -47,10 +47,13 @@ Route::controller(ProductsController::class)->group(function () {
 Route::controller(TransactionsController::class)->group(function () {
     Route::get('/transactions/nav', [TransactionsController::class, 'nav'])->name('transactions.nav');
     Route::get('/transactions', [TransactionsController::class, 'index'])->name('transactions.index');
+    Route::get('/transactions/history', [TransactionsController::class, 'history'])->name('transactions.history');
     Route::get('/transactions/create', [TransactionsController::class, 'create'])->name('transactions.create');
     Route::post('/transactions/store', 'store')->name('transactions.store');
     Route::get('/transactions/{id}', [TransactionsController::class, 'show'])->name('transactions.show');
     Route::get('/transactions/{id}/edit', [TransactionsController::class, 'edit'])->name('transactions.edit');
     Route::put('/transactions/{id}', [TransactionsController::class, 'update'])->name('transactions.update');
     Route::delete('/transactions/{id}', [TransactionsController::class, 'destroy'])->name('transactions.destroy');
+    Route::get('/transactions/receipt/{transaction}', [TransactionsController::class, 'receipt'])->name('transactions.receipt');
+
 });
