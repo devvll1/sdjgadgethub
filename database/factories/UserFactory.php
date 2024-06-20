@@ -20,7 +20,7 @@ class UserFactory extends Factory
             'first_name' => 'Test',
             'last_name' => 'User',
             'email' => 'test@example.com',
-            'gender_id' => 1, // Assuming male gender ID is 1
+            'gender_id' => 3, // Assuming male gender ID is 1
             'middle_name' => $this->faker->firstName,
             'suffix_name' => $this->faker->suffix,
             'birth_date' => $this->faker->date(),

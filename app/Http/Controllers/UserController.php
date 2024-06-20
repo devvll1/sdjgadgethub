@@ -109,10 +109,11 @@ use Illuminate\Http\UploadedFile;
             'contact_number' => ['required', 'numeric'],
             'email' => ['required', 'email'],
             'username' => ['required', 'max:12', Rule::unique('users', 'username')],
-            'password' => ['required', 'max:15'],
+            'password' => ['required', 'max:15','confirmed'],
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'password_confirmation' => ['required'],
         ], [
+            'password.confirmed' => 'The password confirmation does not match.',
             'gender_id.required' => 'The gender field is required.'
         ]);
         if($request->hasFile('photo')) {

@@ -66,7 +66,7 @@
         <a href="{{ route('products.nav') }}" class="btn btn-custom">PRODUCTS</a>
         <a href="{{ route('users.nav') }}" class="btn btn-custom">USERS</a>
         <a href="{{ route('transactions.nav') }}" class="btn btn-custom">ORDER</a>
-        <a href="" class="btn btn-custom">REPORTS</a>
+        <a href="{{ route('transactions.report') }}" class="btn btn-custom">REPORTS</a>
     </div>
 
     @yield('page-content')

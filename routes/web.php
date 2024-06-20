@@ -4,6 +4,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\TransactionsController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ReportController;
+
 
 // Group routes that require authentication
 Route::middleware(['auth'])->group(function () {
@@ -12,7 +14,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-
+    
     // User routes
     Route::controller(UserController::class)->group(function () {
         Route::get('/users/nav', 'nav')->name('users.nav');
@@ -37,7 +39,11 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/products/{id}', 'update')->name('products.update');
         Route::delete('/products/{id}', 'destroy')->name('products.destroy');
     });
-
+    
+    Route::controller(ReportController::class)->group(function () {
+        Route::get('/transactions/report', 'showReport')->name('transactions.report');
+    
+    });
     // Transaction routes
     Route::controller(TransactionsController::class)->group(function () {
         Route::get('/transactions/nav', 'nav')->name('transactions.nav');
@@ -50,9 +56,13 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/transactions/{id}', 'update')->name('transactions.update');
         Route::delete('/transactions/{id}', 'destroy')->name('transactions.destroy');
         Route::get('/transactions/receipt/{transaction}', 'receipt')->name('transactions.receipt');
+
     });
 
+   
+
 });
+
 
 // Public routes (do not require authentication)
 Route::controller(UserController::class)->group(function () {

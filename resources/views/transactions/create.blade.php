@@ -45,6 +45,7 @@
                                 <input type="hidden" id="order-items-input" name="order_items" value="">  
                                 <button type="submit" class="btn btn-success">Checkout</button>
                                 <a class="btn btn-primary" href="{{ route('transactions.nav') }}">Return</a>
+                                <a class="btn btn-danger"href="{{ route('transactions.create') }}" >Clear</a> <!-- Add Clear Button -->
                             </div>
                         </div>
                         <div class="col-md-7">
@@ -202,14 +203,6 @@
             const change = tenderedAmount - totalAmount;
             changeEl.textContent = change.toFixed(2);
             changeAmountInput.value = change.toFixed(2);
-        }
-
-        function clearOrder() {
-            orderItems.length = 0;
-            updateOrderDetails();
-            tenderedInput.value = 0;
-            changeEl.textContent = '0';
-            changeAmountInput.value = '0';
         }
 
     });
