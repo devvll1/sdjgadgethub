@@ -49,6 +49,10 @@
                         <th scope="row">Username</th>
                         <td>{{ $user->username }}</td>
                     </tr>
+                    <tr>
+                        <th scope="row">Role</th>
+                        <td><span class="badge text-bg-{{ $user->role === 'admin' ? 'dark' : 'info' }}">{{ ucfirst($user->role) }}</span></td>
+                    </tr>
                 </tbody>
             </table>
             

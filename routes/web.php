@@ -1,22 +1,26 @@
 <?php
 
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductsController;
-use App\Http\Controllers\TransactionsController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\TransactionsController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 
+Route::middleware('guest')->group(function () {
+    Route::get('/', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:6,1')->name('login.store');
+    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+    Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:6,1');
+});
 
-// Group routes that require authentication
-Route::middleware(['auth'])->group(function () {
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
-    // Dashboard route
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-    
-    // User routes
-    Route::controller(UserController::class)->group(function () {
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::controller(UserController::class)->middleware('role:admin')->group(function () {
         Route::get('/users/nav', 'nav')->name('users.nav');
         Route::get('/users', 'index')->name('users.index');
         Route::get('/users/create', 'create')->name('users.create');
@@ -25,11 +29,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/users/{id}/edit', 'edit')->name('users.edit');
         Route::put('/users/{id}', 'update')->name('users.update');
         Route::delete('/users/{id}', 'destroy')->name('users.destroy');
-        Route::get('/full-name', 'showFullName')->name('full-name.show');
     });
 
-    // Product routes
-    Route::controller(ProductsController::class)->group(function () {
+    Route::controller(ProductsController::class)->middleware('role:admin')->group(function () {
         Route::get('/products/nav', 'nav')->name('products.nav');
         Route::get('/products', 'index')->name('products.index');
         Route::get('/products/create', 'create')->name('products.create');
@@ -39,37 +41,21 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/products/{id}', 'update')->name('products.update');
         Route::delete('/products/{id}', 'destroy')->name('products.destroy');
     });
-    
-    Route::controller(ReportController::class)->group(function () {
+
+    Route::controller(ReportController::class)->middleware('role:admin')->group(function () {
         Route::get('/transactions/report', 'showReport')->name('transactions.report');
-    
     });
-    // Transaction routes
+
     Route::controller(TransactionsController::class)->group(function () {
         Route::get('/transactions/nav', 'nav')->name('transactions.nav');
-        Route::get('/transactions', 'index')->name('transactions.index');
+        Route::get('/transactions', 'index')->middleware('role:admin')->name('transactions.index');
         Route::get('/transactions/history', 'history')->name('transactions.history');
         Route::get('/transactions/create', 'create')->name('transactions.create');
         Route::post('/transactions/store', 'store')->name('transactions.store');
-        Route::get('/transactions/{id}', 'show')->name('transactions.show');
-        Route::get('/transactions/{id}/edit', 'edit')->name('transactions.edit');
-        Route::put('/transactions/{id}', 'update')->name('transactions.update');
-        Route::delete('/transactions/{id}', 'destroy')->name('transactions.destroy');
         Route::get('/transactions/receipt/{transaction}', 'receipt')->name('transactions.receipt');
-
+        Route::get('/transactions/{id}', 'show')->middleware('role:admin')->name('transactions.show');
+        Route::get('/transactions/{id}/edit', 'edit')->middleware('role:admin')->name('transactions.edit');
+        Route::put('/transactions/{id}', 'update')->middleware('role:admin')->name('transactions.update');
+        Route::delete('/transactions/{id}', 'destroy')->middleware('role:admin')->name('transactions.destroy');
     });
-
-   
-
-});
-
-
-// Public routes (do not require authentication)
-Route::controller(UserController::class)->group(function () {
-    Route::get('/', 'login')->name('login');
-    Route::post('/process/login', 'processLogin');
-    Route::get('/logout', function () {
-        return view('login.logout'); // return the logout confirmation view
-    })->name('logout.get'); 
-    Route::post('/logout', 'logout')->name('logout');
 });

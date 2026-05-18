@@ -19,7 +19,25 @@ class DatabaseSeeder extends Seeder
     Gender::factory()->create(['gender' => 'Male']);
     Gender::factory()->create(['gender' => 'Female']);
 
-    User::factory()->create();
+    $adminUser = User::updateOrCreate(
+        ['username' => 'admin'],
+        [
+            'first_name' => 'Admin',
+            'last_name' => 'User',
+            'email' => 'admin@example.com',
+            'gender_id' => 1,
+            'password' => 'password123',
+            'role' => 'admin',
+        ]
+    );
+
+    echo "\n" . str_repeat("=", 50) . "\n";
+    echo "ADMIN ACCOUNT CREDENTIALS\n";
+    echo str_repeat("=", 50) . "\n";
+    echo "Email: " . $adminUser->email . "\n";
+    echo "Username: " . $adminUser->username . "\n";
+    echo "Password: password123\n";
+    echo str_repeat("=", 50) . "\n\n";
 
     Category::factory()->create(['category_name' => 'Phones']); 
     Category::factory()->create(['category_name' => 'Laptops']);

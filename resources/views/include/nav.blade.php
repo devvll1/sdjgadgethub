@@ -1,110 +1,75 @@
-
-<style>
-    .btn {
-        padding: .45rem 1.5rem .35rem;
-    }
-
-    .gradient-custom {
-        background: linear-gradient(to right, rgba(255, 235, 59, 1), rgba(0, 0, 0, 1));
-    }
-
-    .navbar-brand,
-    .nav-link {
-        color: #fff !important;
-    }
-
-    .nav-link .fa {
-        margin-right: 5px;
-    }
-
-    .navbar-toggler {
-        border: none;
-    }
-
-    .navbar-toggler:focus {
-        outline: none;
-        box-shadow: none;
-    }
-
-    .dropdown-menu {
-        background-color: #333;
-    }
-
-    .dropdown-item {
-        color: #fff !important;
-    }
-
-    .dropdown-item:hover {
-        background-color: #555;
-    }
-
-    .input-group .form-control {
-        border-radius: 0;
-    }
-
-    .input-group .btn {
-        border-radius: 0;
-    }
-
-    .navbar-brand img {
-        height: 40px; /* Adjust the height according to your logo size */
-    }
-</style>
-
-<nav class="navbar navbar-expand-lg navbar-dark gradient-custom">
+<nav class="navbar navbar-expand-lg navbar-dark navbar-brand-gradient shadow-sm">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <img src="{{ asset('img/login.png') }}" alt="Logo">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('dashboard') }}">
+            <img src="{{ asset('img/login.png') }}" alt="SDJ Gadget Hub" height="36">
+            <span class="font-display d-none d-md-inline">SDJ Gadget Hub</span>
         </a>
-        <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="fas fa-bars text-light"></i>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" id="mainNavbar">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link" href="{{ route('dashboard') }}">
-                        <i class="far fa-envelope"></i> Home
+                        <i class="bi bi-house-door me-1"></i> Home
                     </a>
-                    <li class="nav-item dropdown">
+                </li>
+                @if(auth()->user()?->isAdmin())
+                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="productsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="far fa-envelope"></i> Products
+                        <i class="bi bi-box-seam me-1"></i> Products
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="productsDropdown">
-                        <li><a class="dropdown-item" href="{{ route('products.index') }}">Product List</a></li>
-                        <li><a class="dropdown-item" href="{{ route('products.create') }}">Add Product</a></li>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="productsDropdown">
+                        <li><a class="dropdown-item" href="{{ route('products.index') }}">Product list</a></li>
+                        <li><a class="dropdown-item" href="{{ route('products.create') }}">Add product</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="usersDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="far fa-envelope"></i> Users
+                        <i class="bi bi-people me-1"></i> Users
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="usersDropdown">
-                        <li><a class="dropdown-item" href="{{ route('users.index') }}">User List</a></li>
-                        <li><a class="dropdown-item" href="{{ route('users.create') }}">Add User</a></li>
-                        
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="usersDropdown">
+                        <li><a class="dropdown-item" href="{{ route('users.index') }}">User list</a></li>
+                        <li><a class="dropdown-item" href="{{ route('users.create') }}">Add user</a></li>
                     </ul>
                 </li>
+                @endif
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="orderDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="far fa-envelope"></i> Order
+                        <i class="bi bi-cart-check me-1"></i> Orders
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="orderDropdown">
-                        <li><a class="dropdown-item" href="{{ route('transactions.index') }}">Transaction List</a></li>
-                        <li><a class="dropdown-item" href="{{ route('transactions.history') }}">Transaction History</a></li>
-                        <li><a class="dropdown-item" href="{{ route('transactions.create') }}">Add Transaction</a></li>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="orderDropdown">
+                        @if(auth()->user()?->isAdmin())
+                            <li><a class="dropdown-item" href="{{ route('transactions.index') }}">Transactions</a></li>
+                        @endif
+                        <li><a class="dropdown-item" href="{{ route('transactions.history') }}">History</a></li>
+                        <li><a class="dropdown-item" href="{{ route('transactions.create') }}">New sale</a></li>
+                        @if(auth()->user()?->isAdmin())
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ route('transactions.report') }}">Reports</a></li>
+                        @endif
                     </ul>
                 </li>
             </ul>
 
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item btn btn-outline-dark" style="margin-right:19px">
-                    <a class="nav-link" href="{{ route('logout') }}">
-                        <i class="fas fa-globe-americas"></i> Logout
-                    </a>
+                <li class="nav-item">
+                    <span class="nav-link text-white-50 d-none d-lg-inline">
+                        <i class="bi bi-person-circle me-1"></i>
+                        {{ session('myFullName', auth()->user()?->full_name) }}
+                        <span class="badge rounded-pill text-bg-light text-dark ms-1">{{ ucfirst(auth()->user()?->role ?? 'cashier') }}</span>
+                    </span>
+                </li>
+                <li class="nav-item">
+                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-light btn-sm ms-lg-2">
+                            <i class="bi bi-box-arrow-right me-1"></i> Logout
+                        </button>
+                    </form>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-
